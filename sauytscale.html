@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SauytScale — Смарт дене құрамы таразысы | Қазақстан</title>
+  <meta name="description" content="SauytScale — BIA технологиясы арқылы дене құрамын дәл өлшейтін смарт таразы. 15+ көрсеткіш." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: hsl(220,25%,6%);
+      --fg: hsl(0,0%,95%);
+      --card: hsl(220,20%,10%);
+      --primary: hsl(185,100%,50%);
+      --primary-fg: hsl(220,25%,6%);
+      --secondary: hsl(145,100%,45%);
+      --muted: hsl(220,10%,55%);
+      --muted-bg: hsl(220,15%,15%);
+      --border: hsl(220,15%,18%);
+      --glass: hsla(220,20%,10%,0.5);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    ::selection { background: hsla(185,100%,50%,0.3); color: #fff; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: hsla(185,100%,50%,0.3); border-radius: 3px; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    .gradient-text { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .glass-card { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid hsla(220,15%,18%,0.5); border-radius: 1rem; }
+    .neon-glow { box-shadow: 0 0 20px hsla(185,100%,50%,0.15), 0 0 60px hsla(185,100%,50%,0.05); }
+    .divider-glow { height: 1px; background: linear-gradient(90deg, transparent, hsla(185,100%,50%,0.3), transparent); }
+
+    .btn-primary { display: inline-block; background: var(--primary); color: var(--primary-fg); font-weight: 600; padding: 1rem 2rem; border-radius: 0.75rem; transition: all 0.3s; box-shadow: 0 0 20px hsla(185,100%,50%,0.3); border: none; cursor: pointer; font-size: 1rem; }
+    .btn-primary:hover { box-shadow: 0 0 40px hsla(185,100%,50%,0.5); transform: translateY(-2px); }
+    .btn-outline { display: inline-block; border: 1px solid hsla(185,100%,50%,0.5); color: var(--primary); font-weight: 600; padding: 1rem 2rem; border-radius: 0.75rem; transition: all 0.3s; background: transparent; cursor: pointer; font-size: 1rem; }
+    .btn-outline:hover { background: hsla(185,100%,50%,0.1); box-shadow: 0 0 30px hsla(185,100%,50%,0.2); }
+
+    .section-title { font-size: clamp(1.75rem, 5vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+    .section-sub { color: var(--muted); max-width: 600px; margin: 0 auto; }
+    .text-center { text-align: center; }
+    .italic { font-style: italic; }
+
+    /* ===== NAVBAR ===== */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: hsla(220,25%,6%,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid hsla(220,15%,18%,0.3); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 4rem; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-size: 0.875rem; color: var(--muted); transition: color 0.3s; }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-cta { padding: 0.625rem 1.5rem !important; font-size: 0.875rem !important; }
+    .hamburger { display: none; background: none; border: none; color: var(--fg); cursor: pointer; }
+    .mobile-menu { display: none; flex-direction: column; gap: 1rem; padding: 1.5rem; background: hsla(220,25%,6%,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid hsla(220,15%,18%,0.3); }
+    .mobile-menu.open { display: flex; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+    }
+
+    /* ===== HERO ===== */
+    .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 4rem; position: relative; overflow: hidden;
+      background: radial-gradient(ellipse at 50% 0%, hsla(185,100%,50%,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 50%, hsla(145,100%,45%,0.05) 0%, transparent 50%), var(--bg); }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 9999px; border: 1px solid hsla(185,100%,50%,0.3); background: hsla(185,100%,50%,0.05); color: var(--primary); font-size: 0.875rem; }
+    .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); animation: pulse 2s infinite; }
+    .hero h1 { font-size: clamp(2.25rem, 6vw, 4rem); font-weight: 700; line-height: 1.1; margin: 2rem 0 1.5rem; }
+    .hero p { color: var(--muted); max-width: 32rem; }
+    .hero-stats { display: flex; gap: 2rem; margin-top: 2rem; }
+    .hero-stats .val { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+    .hero-stats .lbl { font-size: 0.875rem; color: var(--muted); }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+    .hero-img { display: flex; justify-content: center; position: relative; }
+    .hero-img img { width: 100%; max-width: 28rem; filter: drop-shadow(0 25px 50px rgba(0,0,0,0.5)); animation: float 6s ease-in-out infinite; }
+    @media (max-width: 768px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .hero-stats { justify-content: center; } .hero-buttons { justify-content: center; } }
+
+    /* ===== SECTIONS ===== */
+    section { padding: 6rem 0; }
+    .section-bg { background: radial-gradient(ellipse at 20% 50%, hsla(185,100%,50%,0.04) 0%, transparent 50%), var(--bg); }
+
+    /* ===== HOW IT WORKS ===== */
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    .step-card { padding: 2rem; text-align: center; }
+    .step-card:hover { box-shadow: 0 0 20px hsla(185,100%,50%,0.15); }
+    .step-num { width: 3.5rem; height: 3.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 700; color: var(--primary-fg); background: linear-gradient(135deg, var(--primary), var(--secondary)); margin: 0 auto 1rem; }
+    .step-icon { width: 3rem; height: 3rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, hsla(185,100%,50%,0.15), hsla(145,100%,45%,0.1)); margin: 0 auto 1rem; }
+    .step-icon svg { width: 24px; height: 24px; stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .step-card h3 { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .step-card .en { font-size: 0.75rem; color: hsla(220,10%,55%,0.6); font-style: italic; margin-bottom: 0.75rem; }
+    .step-card p { font-size: 0.875rem; color: var(--muted); }
+    @media (max-width: 768px) { .steps-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .steps-grid { grid-template-columns: 1fr; } }
+
+    /* ===== FEATURES ===== */
+    .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .feature-card { padding: 1.5rem; transition: all 0.5s; }
+    .feature-card:hover { border-color: hsla(185,100%,50%,0.3); }
+    .feature-card .icon { width: 3rem; height: 3rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, hsla(185,100%,50%,0.15), hsla(145,100%,45%,0.1)); margin-bottom: 0.75rem; transition: transform 0.3s; }
+    .feature-card:hover .icon { transform: scale(1.1); }
+    .feature-card .icon svg { width: 24px; height: 24px; stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .feature-card h3 { font-weight: 600; margin-bottom: 0.25rem; }
+    .feature-card .en { font-size: 0.75rem; color: hsla(220,10%,55%,0.6); font-style: italic; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.875rem; color: var(--muted); }
+    @media (max-width: 768px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .features-grid { grid-template-columns: 1fr; } }
+
+    /* ===== SCIENCE ===== */
+    .science-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .science-badges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+    .science-badge { padding: 1rem; text-align: center; }
+    .science-badge svg { width: 24px; height: 24px; stroke: var(--primary); fill: none; stroke-width: 2; margin: 0 auto 0.5rem; stroke-linecap: round; stroke-linejoin: round; }
+    .science-badge .lbl { font-size: 0.875rem; font-weight: 500; }
+    .science-badge .en { font-size: 0.75rem; color: hsla(220,10%,55%,0.5); }
+    .body-vis { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 3rem; background: linear-gradient(135deg, hsla(185,100%,50%,0.05), hsla(145,100%,45%,0.05)); }
+    .body-silhouette { position: relative; width: 12rem; display: flex; flex-direction: column; align-items: center; }
+    .body-silhouette .head { width: 4rem; height: 4rem; border-radius: 50%; border: 2px solid hsla(185,100%,50%,0.4); }
+    .body-silhouette .torso { width: 6rem; height: 8rem; border: 2px solid hsla(185,100%,50%,0.4); border-radius: 0.5rem; margin-top: 0.5rem; position: relative; overflow: hidden; }
+    .body-silhouette .scan { position: absolute; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, transparent, var(--primary), transparent); animation: scan 2s linear infinite; }
+    .body-silhouette .arm { position: absolute; width: 2rem; height: 7rem; border: 2px solid hsla(145,100%,45%,0.4); border-radius: 0.5rem; top: 5rem; }
+    .body-silhouette .arm-l { left: -2.5rem; }
+    .body-silhouette .arm-r { right: -2.5rem; }
+    .body-silhouette .legs { display: flex; gap: 1rem; margin-top: 0.5rem; }
+    .body-silhouette .leg { width: 2.5rem; height: 7rem; border: 2px solid hsla(185,100%,50%,0.4); border-radius: 0.5rem; }
+    .float-metric { position: absolute; padding: 0.375rem 0.75rem; font-size: 0.75rem; animation: pulse 2s infinite; }
+    .float-metric .v { color: var(--primary); font-weight: 600; }
+    .float-metric .l { color: var(--muted); margin-left: 0.25rem; }
+    @media (max-width: 768px) { .science-grid { grid-template-columns: 1fr; } }
+
+    /* ===== DASHBOARD ===== */
+    .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .dash-img img { max-width: 24rem; margin: 0 auto; filter: drop-shadow(0 25px 50px rgba(0,0,0,0.5)); }
+    .dash-list { display: flex; flex-direction: column; gap: 1rem; margin: 1.5rem 0; }
+    .dash-list-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; color: var(--muted); }
+    .dash-list-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+    .dash-platforms { display: flex; gap: 1rem; }
+    .dash-platform { padding: 0.75rem 1.25rem; text-align: center; }
+    .dash-platform .name { font-size: 1.5rem; font-weight: 700; }
+    .dash-platform .sub { font-size: 0.75rem; color: var(--muted); }
+    @media (max-width: 768px) { .dash-grid { grid-template-columns: 1fr; } .dash-img { order: 2; } }
+
+    /* ===== TESTIMONIALS ===== */
+    .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .test-card { padding: 2rem; transition: all 0.5s; }
+    .test-card:hover { border-color: hsla(185,100%,50%,0.3); }
+    .stars { display: flex; gap: 0.25rem; margin-bottom: 1rem; }
+    .stars svg { width: 16px; height: 16px; fill: var(--primary); stroke: var(--primary); }
+    .test-card .quote { font-size: 0.875rem; color: var(--muted); font-style: italic; margin-bottom: 1rem; line-height: 1.6; }
+    .test-card .author { font-size: 0.875rem; font-weight: 600; }
+    .test-card .role { font-size: 0.75rem; color: hsla(220,10%,55%,0.6); }
+    @media (max-width: 768px) { .test-grid { grid-template-columns: 1fr; } }
+
+    /* ===== TECH SPECS ===== */
+    .specs-table { max-width: 48rem; margin: 0 auto; overflow: hidden; }
+    .spec-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; }
+    .spec-row:not(:last-child) { border-bottom: 1px solid hsla(220,15%,18%,0.3); }
+    .spec-row:nth-child(even) { background: hsla(220,15%,15%,0.2); }
+    .spec-row .label { font-size: 0.875rem; font-weight: 500; }
+    .spec-row .en { font-size: 0.75rem; color: hsla(220,10%,55%,0.5); font-style: italic; margin-left: 0.5rem; }
+    .spec-row .value { font-size: 0.875rem; color: var(--primary); font-weight: 600; }
+
+    /* ===== PRICING ===== */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 64rem; margin: 0 auto; }
+    .plan-card { padding: 2rem; position: relative; }
+    .plan-card.popular { border-color: hsla(185,100%,50%,0.5); }
+    .plan-badge { position: absolute; top: -0.75rem; left: 50%; transform: translateX(-50%); padding: 0.25rem 1rem; border-radius: 9999px; background: var(--primary); color: var(--primary-fg); font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+    .plan-name { font-size: 1.25rem; font-weight: 700; }
+    .plan-name-en { font-size: 0.75rem; color: hsla(220,10%,55%,0.5); font-style: italic; }
+    .plan-price { margin: 1.5rem 0; }
+    .plan-price .amount { font-size: 2.25rem; font-weight: 700; }
+    .plan-price .currency { font-size: 0.875rem; color: var(--muted); }
+    .plan-features { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .plan-feature { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.875rem; color: var(--muted); }
+    .plan-feature svg { width: 16px; height: 16px; stroke: var(--primary); flex-shrink: 0; margin-top: 2px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .plan-btn { width: 100%; text-align: center; }
+    @media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; max-width: 24rem; } }
+
+    /* ===== FOOTER ===== */
+    footer { border-top: 1px solid hsla(220,15%,18%,0.3); padding: 4rem 0; }
+    .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3rem; }
+    .footer-col h4 { font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; }
+    .footer-col a, .footer-col p { font-size: 0.875rem; color: var(--muted); display: block; margin-bottom: 0.5rem; transition: color 0.3s; }
+    .footer-col a:hover { color: var(--primary); }
+    .footer-contact { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .footer-contact svg { width: 16px; height: 16px; stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { font-size: 0.75rem; color: hsla(220,10%,55%,0.5); }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+    /* Fade-in on scroll */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s, transform 0.8s; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="container nav-inner">
+    <a href="#" class="gradient-text" style="font-size:1.25rem;font-weight:700;">SauytScale</a>
+    <div class="nav-links">
+      <a href="#how-it-works">Қалай жұмыс істейді</a>
+      <a href="#features">Мүмкіндіктер</a>
+      <a href="#science">Ғылым</a>
+      <a href="#pricing">Бағасы</a>
+      <a href="#pricing" class="btn-primary nav-cta">Сатып алу</a>
+    </div>
+    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#how-it-works" onclick="document.getElementById('mobile-menu').classList.remove('open')">Қалай жұмыс істейді</a>
+    <a href="#features" onclick="document.getElementById('mobile-menu').classList.remove('open')">Мүмкіндіктер</a>
+    <a href="#science" onclick="document.getElementById('mobile-menu').classList.remove('open')">Ғылым</a>
+    <a href="#pricing" onclick="document.getElementById('mobile-menu').classList.remove('open')">Бағасы</a>
+    <a href="#pricing" class="btn-primary" style="text-align:center;padding:0.75rem;" onclick="document.getElementById('mobile-menu').classList.remove('open')">Сатып алу</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge"><span class="dot"></span> Қазақстанда бірінші рет</div>
+        <h1>Денеңіздің <span class="gradient-text">толық бейнесін</span> біліңіз</h1>
+        <p>SauytScale — BIA технологиясы арқылы дене құрамын дәл өлшейтін смарт таразы. Май, бұлшықет, су деңгейі және тағы 15+ көрсеткішті бірден анықтаңыз.</p>
+        <p style="font-size:0.875rem;color:hsla(220,10%,55%,0.7);margin-top:0.5rem;">Smart body composition scale with Bioelectrical Impedance Analysis</p>
+        <div class="hero-buttons">
+          <a href="#pricing" class="btn-primary">Алдын ала тапсырыс беру</a>
+          <a href="#how-it-works" class="btn-outline">Қалай жұмыс істейді?</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="val">15+</div><div class="lbl">Көрсеткіш</div></div>
+          <div><div class="val">30с</div><div class="lbl">Талдау</div></div>
+          <div><div class="val">99.5%</div><div class="lbl">Дәлдік</div></div>
+        </div>
+      </div>
+      <div class="hero-img">
+        <div style="width:100%;max-width:28rem;aspect-ratio:1;background:linear-gradient(135deg,hsla(185,100%,50%,0.1),hsla(145,100%,45%,0.05));border-radius:50%;display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:6rem;opacity:0.3;">⚖️</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-glow"></div>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="section-bg">
+  <div class="container">
+    <div class="text-center fade-in" style="margin-bottom:4rem;">
+      <h2 class="section-title">Қалай <span class="gradient-text">жұмыс істейді?</span></h2>
+      <p class="section-sub">How does it work?</p>
+    </div>
+    <div class="steps-grid">
+      <div class="glass-card step-card fade-in">
+        <div class="step-num">1</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M4 16v-2a4 4 0 0 1 4-4h0"/><circle cx="9" cy="7" r="2"/><path d="M16 16v-2a4 4 0 0 0-4-4"/><path d="M12 20v-4"/></svg></div>
+        <h3>Таразыға тұрыңыз</h3>
+        <p class="en">Step on the scale</p>
+        <p>Жай ғана таразыға тұрыңыз — салмағыңыз бірден өлшенеді.</p>
+      </div>
+      <div class="glass-card step-card fade-in">
+        <div class="step-num">2</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 13"/></svg></div>
+        <h3>Тұтқаны ұстаңыз</h3>
+        <p class="en">Hold the grips</p>
+        <p>Қос тұтқаны екі қолыңызбен ұстаңыз — дұрыс тізбек құрылады.</p>
+      </div>
+      <div class="glass-card step-card fade-in">
+        <div class="step-num">3</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <h3>BIA талдау</h3>
+        <p class="en">BIA analysis</p>
+        <p>Қауіпсіз, төмен деңгейлі электр тогы арқылы дене құрамы талданады.</p>
+      </div>
+      <div class="glass-card step-card fade-in">
+        <div class="step-num">4</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></div>
+        <h3>Нәтижені алыңыз</h3>
+        <p class="en">Get results</p>
+        <p>30 секундта 15+ көрсеткіш смартфоныңызға жіберіледі.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-glow"></div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="text-center fade-in" style="margin-bottom:4rem;">
+      <h2 class="section-title"><span class="gradient-text">15+ көрсеткіш</span> бір құрылғыда</h2>
+      <p class="section-sub">15+ health metrics in one device</p>
+    </div>
+    <div class="features-grid">
+      <div class="glass-card feature-card fade-in"><div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></div><h3>Дене салмағы</h3><p class="en">Body Weight</p><p>Жоғары дәлдіктегі салмақ өлшеу — ±50г дейін</p></div>
+      <div class="glass-card feature-card fade-in"><div class="icon"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-2-3.92-2-6.5 0 2.58-.93 4.36-2 6.5-.5 1-.5 1.62-.5 3a2.5 2.5 0 0 0 2.5 2.5z"/><path d="M15.5 14.5A2.5 2.5 0 0 0 18 12c0-1.38-.5-2-1-3-1.07-2.14-2-3.92-2-6.5 0 2.58-.93 4.36-2 6.5-.5 1-.5 1.62-.5 3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><h3>Дене май пайызы</h3><p class="en">Body Fat %</p><p>Жалпы және сегменттік май деңгейін анықтау</p></div>
+      <div class="glass-card feature-card fade-in"><div class="icon"><svg viewBox="0 0 24 24"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg></div><h3>Бұлшықет массасы</h3><p class="en">Skeletal Muscle</p><p>Скелет бұлшықет массасын нақты өлшеу</p></div>
+      <div class="glass-card feature-card fade-in"><div class="icon"><svg viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></div><h3>Дене суы</h3><p class="en">Body Water</p><p>Организмдегі су деңгейін бақылау</p></div>
+      <div class="glass-card feature-card fade-in"><div class="icon"><svg viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5 0c0-.81-.7-1.8 0-2.5Z"/></svg></div><h3>Сүйек массасы</h3><p class="en">Bone Mass</p><p>Сүйек минералды тығыздығын анықтау</p></div>
+      <div class="glass-card feature-card fade-in"><div class="icon"><svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div><h3>Висцералды май</h3><p class="en">Visceral Fat</p><p>Ішкі ағзалар айналасындағы май деңгейі</p></div>
+      <div class="glass-card feature-card fade-in"><div class="icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h3>BMR</h3><p class="en">Basal Metabolic Rate</p><p>Тыныштықтағы негізгі зат алмасу жылдамдығы</p></div>
+      <div class="glass-card feature-card fade-in"><div class="icon"><svg viewBox="0 0 24 24"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/></svg></div><h3>Дене жасы</h3><p class="en">Metabolic Age</p><p>Биологиялық жасыңызды біліңіз</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-glow"></div>
+
+<!-- SCIENCE -->
+<section id="science" class="section-bg">
+  <div class="container">
+    <div class="science-grid">
+      <div class="fade-in">
+        <h2 class="section-title"><span class="gradient-text">BIA технологиясы</span> дегеніміз не?</h2>
+        <p style="font-size:0.875rem;color:hsla(220,10%,55%,0.6);font-style:italic;margin-bottom:1.5rem;">What is Bioelectrical Impedance Analysis?</p>
+        <p style="color:var(--muted);margin-bottom:1rem;">Биоэлектрлік кедергі талдауы (BIA) — дене құрамын анықтауға арналған заманауи, ғылыми негізделген технология. Аяқтар мен қолдар арқылы өте төмен деңгейлі, қауіпсіз электр тогы жіберіліп, дене тіндерінің кедергісі өлшенеді.</p>
+        <p style="color:var(--muted);">Май, бұлшықет, су және сүйек тіндері электр тогын әр түрлі деңгейде өткізеді — осы айырмашылық негізінде дене құрамының нақты көрсеткіштері есептеледі.</p>
+        <div class="science-badges">
+          <div class="glass-card science-badge"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><p class="lbl">100% қауіпсіз</p><p class="en">Safe</p></div>
+          <div class="glass-card science-badge"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg><p class="lbl">Ғылыми дәлдік</p><p class="en">Scientific</p></div>
+          <div class="glass-card science-badge"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg><p class="lbl">Bluetooth 5.0</p><p class="en">Connected</p></div>
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="glass-card body-vis">
+          <div class="body-silhouette">
+            <div class="head"></div>
+            <div class="torso"><div class="scan"></div></div>
+            <div class="arm arm-l"></div>
+            <div class="arm arm-r"></div>
+            <div class="legs"><div class="leg"></div><div class="leg"></div></div>
+          </div>
+          <div class="glass-card float-metric" style="top:2rem;right:2rem;"><span class="v">18%</span><span class="l">Май</span></div>
+          <div class="glass-card float-metric" style="top:33%;left:1rem;"><span class="v">42%</span><span class="l">Бұлшықет</span></div>
+          <div class="glass-card float-metric" style="bottom:25%;right:1.5rem;"><span class="v">55%</span><span class="l">Су</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-glow"></div>
+
+<!-- DASHBOARD -->
+<section>
+  <div class="container">
+    <div class="dash-grid">
+      <div class="dash-img fade-in">
+        <div style="width:100%;max-width:24rem;aspect-ratio:3/4;margin:0 auto;background:linear-gradient(135deg,hsla(185,100%,50%,0.1),hsla(145,100%,45%,0.05));border-radius:1.5rem;display:flex;align-items:center;justify-content:center;border:1px solid hsla(220,15%,18%,0.5);">
+          <div style="text-align:center;color:var(--muted);"><div style="font-size:4rem;margin-bottom:1rem;">📱</div><p>App Dashboard</p></div>
+        </div>
+      </div>
+      <div class="fade-in">
+        <h2 class="section-title">Нәтижелер <span class="gradient-text">қолыңызда</span></h2>
+        <p style="font-size:0.875rem;color:hsla(220,10%,55%,0.6);font-style:italic;margin-bottom:1rem;">Results at your fingertips</p>
+        <p style="color:var(--muted);">SauytScale қосымшасы арқылы барлық көрсеткіштеріңізді қадағалаңыз. Графиктер, тренд-талдау, мақсат қою және отбасы профильдері — бәрі бір жерде.</p>
+        <div class="dash-list">
+          <div class="dash-list-item"><span class="dot"></span>Нақты уақыттағы деректер синхрондау</div>
+          <div class="dash-list-item"><span class="dot"></span>Апта, ай, жыл бойынша тренд-графиктер</div>
+          <div class="dash-list-item"><span class="dot"></span>Отбасы мүшелеріне арналған профильдер (8-ге дейін)</div>
+          <div class="dash-list-item"><span class="dot"></span>AI негізіндегі кеңестер мен ұсыныстар</div>
+          <div class="dash-list-item"><span class="dot"></span>Apple Health / Google Fit интеграциясы</div>
+        </div>
+        <div class="dash-platforms">
+          <div class="glass-card dash-platform"><div class="name" style="color:var(--primary);">iOS</div><div class="sub">App Store</div></div>
+          <div class="glass-card dash-platform"><div class="name" style="color:var(--secondary);">Android</div><div class="sub">Google Play</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-glow"></div>
+
+<!-- TESTIMONIALS -->
+<section class="section-bg">
+  <div class="container">
+    <div class="text-center fade-in" style="margin-bottom:4rem;">
+      <h2 class="section-title">Пайдаланушылар <span class="gradient-text">не дейді?</span></h2>
+      <p class="section-sub">What our users say</p>
+    </div>
+    <div class="test-grid">
+      <div class="glass-card test-card fade-in">
+        <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <p class="quote">"SauytScale менің клиенттерім үшін өте маңызды құрал болды. Нәтижелер дәл, ал қосымша — тамаша!"</p>
+        <p class="author">Айгерім Т.</p>
+        <p class="role">Фитнес тренер, Алматы</p>
+      </div>
+      <div class="glass-card test-card fade-in">
+        <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <p class="quote">"Дене құрамымды үйде дәл өлшеу мүмкіндігі — бұл кереметтің кереметі. Жаңа деңгей!"</p>
+        <p class="author">Бауыржан К.</p>
+        <p class="role">IT маман, Астана</p>
+      </div>
+      <div class="glass-card test-card fade-in">
+        <div class="stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <p class="quote">"BIA технологиясы клиникалық деңгейде нәтиже береді. Пациенттерімнің прогресін бақылауға тамаша."</p>
+        <p class="author">Дана М.</p>
+        <p class="role">Дәрігер-диетолог</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-glow"></div>
+
+<!-- TECH SPECS -->
+<section>
+  <div class="container">
+    <div class="text-center fade-in" style="margin-bottom:4rem;">
+      <h2 class="section-title">Техникалық <span class="gradient-text">сипаттамалар</span></h2>
+      <p class="section-sub">Technical specifications</p>
+    </div>
+    <div class="glass-card specs-table fade-in">
+      <div class="spec-row"><div><span class="label">Өлшем дәлдігі</span><span class="en">Weight accuracy</span></div><span class="value">±50 г</span></div>
+      <div class="spec-row"><div><span class="label">Өлшеу диапазоны</span><span class="en">Weight range</span></div><span class="value">5 — 200 кг</span></div>
+      <div class="spec-row"><div><span class="label">Электродтар</span><span class="en">Electrodes</span></div><span class="value">8 нүктелі ITO</span></div>
+      <div class="spec-row"><div><span class="label">Қосылу</span><span class="en">Connectivity</span></div><span class="value">Bluetooth 5.0 + Wi-Fi</span></div>
+      <div class="spec-row"><div><span class="label">Батарея</span><span class="en">Battery life</span></div><span class="value">AAA × 4 (12+ ай)</span></div>
+      <div class="spec-row"><div><span class="label">Дисплей</span><span class="en">Display</span></div><span class="value">LED, жарықтық</span></div>
+      <div class="spec-row"><div><span class="label">Өлшемі</span><span class="en">Dimensions</span></div><span class="value">320 × 320 × 26 мм</span></div>
+      <div class="spec-row"><div><span class="label">Салмағы</span><span class="en">Device weight</span></div><span class="value">1.8 кг</span></div>
+      <div class="spec-row"><div><span class="label">Материал</span><span class="en">Material</span></div><span class="value">Шыны + ABS пластик</span></div>
+      <div class="spec-row"><div><span class="label">Қосымша</span><span class="en">App support</span></div><span class="value">iOS 14+ / Android 10+</span></div>
+      <div class="spec-row"><div><span class="label">Пайдаланушылар</span><span class="en">User profiles</span></div><span class="value">8-ге дейін</span></div>
+      <div class="spec-row"><div><span class="label">Кепілдік</span><span class="en">Warranty</span></div><span class="value">2 жыл</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-glow"></div>
+
+<!-- PRICING -->
+<section id="pricing" class="section-bg">
+  <div class="container">
+    <div class="text-center fade-in" style="margin-bottom:4rem;">
+      <h2 class="section-title">Өзіңізге <span class="gradient-text">сәйкес жоспар</span> таңдаңыз</h2>
+      <p class="section-sub">Choose the plan that fits you</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="glass-card plan-card fade-in">
+        <p class="plan-name">SauytScale Lite</p>
+        <p class="plan-name-en">Basic</p>
+        <div class="plan-price"><span class="gradient-text amount">49 990</span> <span class="currency">₸</span></div>
+        <div class="plan-features">
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Дене құрамын өлшеу (8 көрсеткіш)</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Bluetooth қосылу</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Мобильді қосымша</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>3 пайдаланушы профилі</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>1 жыл кепілдік</div>
+        </div>
+        <a href="#" class="btn-outline plan-btn">Алдын ала тапсырыс</a>
+      </div>
+      <div class="glass-card plan-card popular neon-glow fade-in">
+        <div class="plan-badge">Ең танымал</div>
+        <p class="plan-name">SauytScale Pro</p>
+        <p class="plan-name-en">Professional</p>
+        <div class="plan-price"><span class="gradient-text amount">79 990</span> <span class="currency">₸</span></div>
+        <div class="plan-features">
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>15+ көрсеткіш (толық талдау)</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Bluetooth 5.0 + Wi-Fi</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>AI кеңестер және ұсыныстар</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>8 пайдаланушы профилі</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Apple Health / Google Fit</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Сегменттік талдау</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>2 жыл кепілдік</div>
+        </div>
+        <a href="#" class="btn-primary plan-btn">Алдын ала тапсырыс</a>
+      </div>
+      <div class="glass-card plan-card fade-in">
+        <p class="plan-name">SauytScale Elite</p>
+        <p class="plan-name-en">Premium</p>
+        <div class="plan-price"><span class="gradient-text amount">119 990</span> <span class="currency">₸</span></div>
+        <div class="plan-features">
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Pro бағдарламасының барлығы</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Премиум дизайн (мат қара)</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Дәрігерге арналған есеп</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Жеке тренер қосымшасы</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Отбасы жоспары (безлімит)</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Тегін жеткізу Қазақстан бойынша</div>
+          <div class="plan-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>3 жыл кепілдік + VIP қолдау</div>
+        </div>
+        <a href="#" class="btn-outline plan-btn">Алдын ала тапсырыс</a>
+      </div>
+    </div>
+    <p class="text-center fade-in" style="margin-top:2rem;font-size:0.875rem;color:hsla(220,10%,55%,0.5);">* Бағаларға ҚҚС кіреді. Қазақстан бойынша жеткізу 3-5 жұмыс күні.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3 class="gradient-text" style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">SauytScale</h3>
+        <p>Қазақстандағы денсаулық технологиясының жаңа стандарты.</p>
+        <p style="font-size:0.75rem;color:hsla(220,10%,55%,0.5);font-style:italic;">The new standard in health technology in Kazakhstan.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Сілтемелер</h4>
+        <a href="#how-it-works">Қалай жұмыс істейді</a>
+        <a href="#features">Мүмкіндіктер</a>
+        <a href="#science">Ғылым</a>
+        <a href="#pricing">Бағасы</a>
+      </div>
+      <div class="footer-col">
+        <h4>Қолдау</h4>
+        <a href="#">Жиі қойылатын сұрақтар</a>
+        <a href="#">Қолдану нұсқаулығы</a>
+        <a href="#">Кепілдік шарттары</a>
+        <a href="#">Құпиялылық саясаты</a>
+      </div>
+      <div class="footer-col">
+        <h4>Байланыс</h4>
+        <div class="footer-contact"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> info@sauytscale.kz</div>
+        <div class="footer-contact"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +7 (707) 123-45-67</div>
+        <div class="footer-contact"><svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Алматы, Қазақстан</div>
+      </div>
+    </div>
+    <div class="divider-glow" style="margin:2rem 0;"></div>
+    <div class="footer-bottom">
+      <p>© 2026 SauytScale. Барлық құқықтар қорғалған.</p>
+      <p>Made with ❤️ in Kazakhstan</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
